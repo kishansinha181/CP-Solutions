@@ -15,12 +15,29 @@ public:
 		if (l1 == NULL) return l2; 
 		if (l2 == NULL) return l1; 
 
-		int x = l1->val + l2->val;
-		ListNode *p = new ListNode(x % 10);
-		p->next = addTwoNumbers(l1->next,l2->next);
-        ListNode *y = new ListNode (1);
-		if (x > 9) p->next = addTwoNumbers(p->next, y);
-		return p;
+        
+	    ListNode *dummy = new ListNode();
+        ListNode*temp = dummy;
+        int carry = 0;
+        int sum = 0;
+        while(l1 || l2 || carry){
+            sum = 0;
+            if(l1){
+                sum+= l1->val;
+                l1 = l1->next;
+            }
+            if(l2){
+                sum+=l2->val;
+                l2 = l2->next;
+            }
+            sum+=carry;
+            carry = sum/10;
+            ListNode * Node = new ListNode(sum%10);
+            
+            temp->next = Node;
+            temp = temp->next;
+        }
+        return dummy->next;
         
     }
 };
