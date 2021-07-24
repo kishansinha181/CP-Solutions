@@ -1,19 +1,20 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-         int n = nums.size();
-        if (n == 1)
-            return 0;
-		// initialize the array such that it is impossible to reach;
-        vector<int> step(n, INT_MAX); 
-        // it takes 0 steps to reach 0th index;
-        step[0] = 0;
-        for (int i = 0; i < n - 1; i++) {
-			 // max index which can be traversed from the index i;
-            for (int j = 1; j <= nums[i] && i + j < n; j++)
-                step[i + j] = min(step[i + j], step[i] + 1); // we need minimum steps possible ;
+        
+        int n = nums.size();
+        int dp[n] ;
+        int inf = 20000;
+        memset(dp,inf, sizeof(dp));
+        dp[0] = 0;
+        for(int i = 1; i <n; i++){
+            for(int j = 0; j<=i-1; j++){
+                if(j + nums[j] >= i && dp[j]!=INT_MAX)
+                    dp[i] = min(dp[i], dp[j] + 1);
+            }
         }
-        //return the min steps required to reach the last index;
-        return step[n - 1];
+        // for(int i = 0; i < n ; i++)
+        //     cout<<dp[i] <<" ";
+        return dp[n-1];
     }
 };
