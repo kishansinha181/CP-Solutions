@@ -11,18 +11,20 @@
  */
 class Solution {
 public:
-     bool Util(TreeNode *root, long max,long min){
-        if(root==NULL) return(true);
-        if(root->val>max || root->val<min) return(false);
-        long data=root->val;
-        bool left_val,right_val;
-        left_val=Util(root->left,data-1,min);
-        right_val=Util(root->right,max,data+1);
-        return(right_val && left_val);
+     bool Util(TreeNode *root, long minVal,long maxVal){
+       if(root == NULL)
+           return (true);
+        long data = root->val;
+         if(data < minVal || data > maxVal )
+             return (false);
+         bool checkLeft = Util(root->left, minVal, data-1);
+         bool checkRight = Util(root->right, data+1, maxVal);
+         
+         return (checkLeft && checkRight);
         
     }
     bool isValidBST(TreeNode* root) {
-       bool result=Util(root,INT_MAX,INT_MIN);
+       bool result=Util(root,INT_MIN,INT_MAX);
         return(result);
         
     }
