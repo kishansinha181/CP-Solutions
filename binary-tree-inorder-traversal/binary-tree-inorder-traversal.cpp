@@ -12,12 +12,26 @@
 class Solution {
 public:
     vector<int> ans;
+    
     void helper( TreeNode *root){
-        if(root == NULL)
-            return;
-    helper(root->left);
-    ans.push_back(root->val);
-    helper(root->right);
+               
+        stack<TreeNode*> st;
+        unordered_map<TreeNode*, int> state;
+        st.push(root);
+        
+        while(!st.empty()){
+            TreeNode * curr = st.top();
+            if(curr == NULL){st.pop(); continue;}
+            if(state[curr] == 0)
+                st.push(curr->left);
+            else if(state[curr] == 1)
+                ans.push_back(curr->val);
+            else if(state[curr] ==2)
+                st.push(curr->right);
+            else
+                st.pop();
+            state[curr]++;
+        }
             
     }
     vector<int> inorderTraversal(TreeNode* root) {
